@@ -6,6 +6,7 @@
 #include "battery.h"
 #include "state_machine.h"
 #include "control.h"
+#include "logger.h"
 
 int main()
 {
@@ -14,6 +15,7 @@ int main()
     srand((unsigned)time(NULL));
 
     BMS_Init(&bms);
+    CSV_Init();
 
     printf("==== BMS V1.0 START ====\n");
 
@@ -27,10 +29,18 @@ int main()
 
         BMS_Report(&bms);
 
+        CSV_Write
+        (
+            bms.soc,
+            BMS_GetPackVoltage(&bms),
+            bms.temperature,
+            StateToStr(bms.state)
+        );
+
         printf("---------------------\n");
 
         Sleep(1000);
     }
-
+    CSV_Close();
     return 0;
 }
