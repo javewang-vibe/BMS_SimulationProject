@@ -11,13 +11,13 @@ void CSV_Init()
         printf("Failed to open CSV file!\n");
         return;
     }
-    fprintf(fp,"soc,voltage,temp,state\n");
+    fprintf(fp,"time,soc,voltage,temp,state\n");
 }
 
-void CSV_Write(float soc, float voltage, float temp, const char* state)
+void CSV_Write(int time,float soc, float voltage, float temp, const char* state)
 {
     if(fp == NULL) return;
-    fprintf(fp,"%.2f,%.2f,%.2f,%s\n",soc,voltage,temp,state);
+    fprintf(fp,"%d,%.6f,%.2f,%.2f,%s\n",time,soc,voltage,temp,state);
     fflush(fp); 
 }
 

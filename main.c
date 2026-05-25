@@ -7,6 +7,7 @@
 #include "state_machine.h"
 #include "control.h"
 #include "logger.h"
+#include "soc.h"
 
 int main()
 {
@@ -16,12 +17,17 @@ int main()
 
     BMS_Init(&bms);
     CSV_Init();
+    static int time = 0;
 
     printf("==== BMS V1.0 START ====\n");
 
     while(1)
     {
+        time++;
+
         BMS_ReadSensor(&bms);
+
+        BMS_UpdateSOC(&bms);
 
         BMS_CheckState(&bms);
 
@@ -31,6 +37,7 @@ int main()
 
         CSV_Write
         (
+            time,
             bms.soc,
             BMS_GetPackVoltage(&bms),
             bms.temperature,

@@ -31,11 +31,11 @@ void BMS_Report(BmsData* bms)
 
     BMS_GetCellMinMax(bms,&minV,&maxV);
 
-    printf("[REPORT] State=%s | PackV=%.2fV | MinV=%.2fV | MaxV=%.2fV | Delta=%.3fV | T=%.1fC\n",
+    printf("[REPORT] State=%s | PackV=%.2fV | MinV=%.2fV | MaxV=%.2fV | Delta=%.3fV | T=%.1fC | SOC=%.6f%%\n",
            StateToStr(bms->state),
            BMS_GetPackVoltage(bms),
            minV,
            maxV,
            maxV - minV,
-           bms->temperature);
+           bms->temperature,bms->soc);
 }
