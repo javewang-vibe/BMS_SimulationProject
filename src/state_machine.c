@@ -1,52 +1,50 @@
 #include <stdio.h>
 #include "state_machine.h"
 #include "battery.h"
+#include "fault.h"
 
 void BMS_CheckState(BmsData* bms)
 {
-    float minV,maxV;
+    BMS_DiagnoseFault(bms);
 
-    BMS_GetCellMinMax(bms,&minV,&maxV);
-
-    float delta = maxV - minV;
+    if(bms->fault != BMS_FAULT_NONE)
+    {
+        bms->state = BMS_FAULT;
+        printf("[FAULT] %s\n", FaultToStr(bms->fault));
+        return;
+    }
 
     switch(bms->state)
     {
         case BMS_STANDBY:
 
-            if(maxV > 4.15)
+            if(bms->current < -0.05f)
                 bms->state = BMS_CHARGE;
 
-            else if(minV < 3.2)
+            else if(bms->current > 0.05f)
                 bms->state = BMS_DISCHARGE;
 
             break;
 
         case BMS_CHARGE:
 
-            if(maxV > 4.25 || bms->temperature > 60)
-                bms->state = BMS_FAULT;
+            if(bms->current >= -0.05f)
+                bms->state = BMS_STANDBY;
 
             break;
 
         case BMS_DISCHARGE:
 
-            if(minV < 3.0 || bms->temperature > 60)
-                bms->state = BMS_FAULT;
+            if(bms->current <= 0.05f)
+                bms->state = BMS_STANDBY;
 
             break;
 
         case BMS_FAULT:
 
-            if(bms->temperature < 50)
-                bms->state = BMS_STANDBY;
+            bms->state = BMS_STANDBY;
 
             break;
-    }
-
-    if(delta > 0.2)
-    {
-        printf("[WARN] Cell imbalance detected: %.3fV\n",delta);
     }
 }
 

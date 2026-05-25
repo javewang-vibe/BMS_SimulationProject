@@ -2,6 +2,7 @@
 #include "control.h"
 #include "battery.h"
 #include "state_machine.h"
+#include "fault.h"
 
 void BMS_Control(BmsData* bms)
 {
@@ -31,11 +32,13 @@ void BMS_Report(BmsData* bms)
 
     BMS_GetCellMinMax(bms,&minV,&maxV);
 
-    printf("[REPORT] State=%s | PackV=%.2fV | MinV=%.2fV | MaxV=%.2fV | Delta=%.3fV | T=%.1fC | SOC=%.6f%%\n",
+    printf("[REPORT] State=%s | Fault=%s | PackV=%.2fV | MinV=%.2fV | MaxV=%.2fV | Delta=%.3fV | I=%.2fA | T=%.1fC | SOC=%.6f%%\n",
            StateToStr(bms->state),
+           FaultToStr(bms->fault),
            BMS_GetPackVoltage(bms),
            minV,
            maxV,
            maxV - minV,
+           bms->current,
            bms->temperature,bms->soc);
 }

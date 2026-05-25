@@ -13,6 +13,7 @@ void BMS_Init(BmsData* bms)
     bms->current = 0.0;
     bms->soc = 50.0;
     bms->state = BMS_STANDBY;
+    bms->fault = BMS_FAULT_NONE;
 }
 
 void BMS_ReadSensor(BmsData* bms)

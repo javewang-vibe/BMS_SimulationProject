@@ -8,6 +8,7 @@
 #include "control.h"
 #include "logger.h"
 #include "soc.h"
+#include "fault.h"
 
 int main()
 {
@@ -40,8 +41,10 @@ int main()
             time,
             bms.soc,
             BMS_GetPackVoltage(&bms),
+            bms.current,
             bms.temperature,
-            StateToStr(bms.state)
+            StateToStr(bms.state),
+            FaultToStr(bms.fault)
         );
 
         printf("---------------------\n");

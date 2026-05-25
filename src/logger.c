@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include "logger.h"
 
-FILE *fp;
+static FILE *fp;
 
-void CSV_Init()
+void CSV_Init(void)
 {
     fp = fopen("bms_log.csv","w");
     if(fp == NULL)
@@ -11,17 +11,17 @@ void CSV_Init()
         printf("Failed to open CSV file!\n");
         return;
     }
-    fprintf(fp,"time,soc,voltage,temp,state\n");
+    fprintf(fp,"time,soc,voltage,current,temp,state,fault\n");
 }
 
-void CSV_Write(int time,float soc, float voltage, float temp, const char* state)
+void CSV_Write(int time, float soc, float voltage, float current, float temp, const char* state, const char* fault)
 {
     if(fp == NULL) return;
-    fprintf(fp,"%d,%.6f,%.2f,%.2f,%s\n",time,soc,voltage,temp,state);
+    fprintf(fp,"%d,%.6f,%.2f,%.2f,%.2f,%s,%s\n", time, soc, voltage, current, temp, state, fault);
     fflush(fp); 
 }
 
-void CSV_Close()
+void CSV_Close(void)
 {
     if(fp != NULL)
     {
