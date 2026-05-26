@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "fault.h"
 #include "battery.h"
 
@@ -49,6 +50,107 @@ void BMS_DiagnoseFault(BmsData* bms)
         bms->fault = BMS_FAULT_CELL_IMBALANCE;
     }
 }
+
+
+void BMS_TryAutoReset(BmsData* bms)
+{
+    float minV,maxV;
+    BMS_GetCellMinMax(bms,&minV,&maxV);
+    bms->fault_timer++;
+    switch(bms->fault_latch)
+    {
+        case BMS_FAULT_OVERTEMPERATURE:
+            if(bms->temperature < 55.0f && bms->fault_timer >=3)
+            {
+                bms->fault_reset_request = 1;
+                printf("[RESET COND] Temperature recovered: %.1fC\n",bms->temperature);
+            }
+            else
+            {
+                printf("[RESET WAIT] Temp=%.1fC, need<55.0C, timer=%ds\n",bms->temperature,bms->fault_timer);
+            }
+            break;
+        case BMS_FAULT_UNDERTEMPERATURE:
+            if(bms->temperature > 0.0f && bms->fault_timer >=3)
+            {
+                bms->fault_reset_request = 1;
+                printf("[RESET COND] Temperature recovered: %.1fC\n",bms->temperature);
+            }
+            else
+            {
+                printf("[RESET WAIT] Temp=%.1fC, need>0.0C, timer=%ds\n",bms->temperature,bms->fault_timer);
+            }
+            break;
+        case BMS_FAULT_CELL_OVERVOLTAGE:
+            if(maxV < 4.15f && bms->fault_timer >=3)
+            {
+                bms->fault_reset_request = 1;
+                printf("[RESET COND] Overvoltage recovered: maxV=%.3fV\n",maxV);
+            }
+            else
+            {
+                printf("[RESET WAIT] maxV=%.3fV, need<4.15V, timer=%ds\n",maxV,bms->fault_timer);
+            }
+            break;
+        case BMS_FAULT_CELL_UNDERVOLTAGE:
+            if(minV > 2.85f && bms->fault_timer >=3)
+            {
+                bms->fault_reset_request = 1;
+                printf("[RESET COND] Undercoltage recovered: minV=%.3fV\n",minV);
+            }
+            else
+            {
+                printf("[RESET WAIT] minV=%.3fV, need>2.85V, timer=%ds\n",minV,bms->fault_timer);
+            }
+            break;
+        case BMS_FAULT_CHARGE_OVERCURRENT:
+        case BMS_FAULT_DISCHARGE_OVERCURRENT:
+            if(bms->current > -0.70f && bms->current <0.70f && bms->fault_timer >= 5)
+            {
+                bms->fault_reset_request = 1;
+                printf("[RESET COND] Current recovered: %.2fA\n",bms->current);
+            }
+            else
+            {
+                printf("[RESET WAIT] I=%.2fA, need in(-0.7,0.7), timer=%ds\n",bms->current,bms->fault_timer);
+            }
+            break;
+        case BMS_FAULT_CELL_IMBALANCE:
+            if((maxV-minV) < 0.15f && bms->fault_timer >= 10)
+            {
+                bms->fault_reset_request = 1;
+                printf("[RESET COND] Imbalance recovered: delta=%.3fV\n",maxV-minV);
+            }
+            else
+            {
+                printf("[RESET WAIT] delta=%.3fV, need <0.15V, timer=%ds\n",maxV-minV,bms->fault_timer);
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const char* FaultToStr(BmsFault fault)
 {

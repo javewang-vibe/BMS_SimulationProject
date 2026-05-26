@@ -31,6 +31,10 @@ typedef struct
     float soc;
     BmsState state;
     BmsFault fault;
+    BmsFault fault_latch;
+    int fault_reset_request;
+    int fault_timer;
+
 } BmsData;
 
 #endif

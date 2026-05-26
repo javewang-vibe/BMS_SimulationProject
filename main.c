@@ -44,7 +44,7 @@ int main()
             bms.current,
             bms.temperature,
             StateToStr(bms.state),
-            FaultToStr(bms.fault)
+            FaultToStr(bms.fault_latch)
         );
 
         printf("---------------------\n");
