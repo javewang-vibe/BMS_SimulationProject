@@ -1,6 +1,6 @@
 #ifndef SOC_H
 #define SOC_H
 
-#include "battery.h"
+#include "bms.h"
 void BMS_UpdateSOC(BmsData* bms);
 #endif
