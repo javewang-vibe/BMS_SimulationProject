@@ -1,6 +1,8 @@
 #ifndef BMS_H
 #define BMS_H
 
+#include "rc_model.h"
+
 #define CELL_NUM 6
 
 typedef enum
@@ -34,7 +36,8 @@ typedef struct
     BmsFault fault_latch;
     int fault_reset_request;
     int fault_timer;
-
+    RcModel rc[CELL_NUM];
+    float soc_cell[CELL_NUM];
 } BmsData;
 
 #endif

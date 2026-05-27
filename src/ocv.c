@@ -18,6 +18,7 @@ static const float ocv_table[]=
 };
 
 #define OCV_TABLE_SIZE 11
+
 float OCV_LookupSOC(float ocv)
 {
     if(ocv <= ocv_table[0])
@@ -35,4 +36,14 @@ float OCV_LookupSOC(float ocv)
         }
     }
     return 0.0f;
+}
+
+float OCV_LookupSOC_Inverse(float soc)
+{
+    if(soc <= 0.0f) return ocv_table[0];
+    if(soc >= 100.0f) return ocv_table[OCV_TABLE_SIZE - 1];
+    int idx = (int)(soc / 10.0f);
+    if(idx >= OCV_TABLE_SIZE - 1) idx = OCV_TABLE_SIZE - 2;
+    float ratio = (soc - idx * 10.0f) / 10.0f;
+    return ocv_table[idx] + ratio * (ocv_table[idx+1] - ocv_table[idx]);
 }
