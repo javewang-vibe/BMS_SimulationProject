@@ -1,17 +1,80 @@
-# BMS_SimulationProject
-This project is a simplified Battery Management System (BMS) simulation developed in C language.  
+# BMS Simulation Project
 
-## Current Features
+A Battery Management System (BMS) simulation implemented in C, 
+simulating real-world battery behavior including SOC estimation, 
+fault detection, and state management.
 
-- Simulated multi-cell voltage, pack current and temperature sampling
-- SOC estimation based on coulomb counting
-- BMS state machine for standby, charge, discharge and fault states
-- Fault diagnosis for cell overvoltage, undervoltage, overtemperature, undertemperature, overcurrent and cell imbalance
-- CSV logging for SOC, pack voltage, current, temperature, state and fault
-- Python-based CSV visualization script
+## Project Structure
+BMS_SimulationProject/
+├── src/                  # Source files (.c)
+│   ├── battery.c         # Battery sensor simulation (RC equivalent circuit)
+│   ├── soc.c             # SOC estimation (Coulomb counting + OCV correction)
+│   ├── state_machine.c   # State machine (STANDBY/CHARGE/DISCHARGE/FAULT)
+│   ├── fault.c           # Fault detection and latch mechanism
+│   ├── control.c         # MOS control output
+│   ├── logger.c          # CSV data logger
+│   ├── rc_model.c        # First-order RC equivalent circuit model
+│   └── ocv.c             # OCV-SOC lookup table with interpolation
+├── include/              # Header files (.h)
+│   ├── bms.h             # Core data structures and enumerations
+│   ├── battery.h
+│   ├── soc.h
+│   ├── state_machine.h
+│   ├── fault.h
+│   ├── control.h
+│   ├── logger.h
+│   ├── rc_model.h
+│   └── ocv.h
+├── main.c                # Main loop
+└── plot_bms_update.py           # Python visualization script
 
-## Build
+## Features
 
-```powershell
-gcc -Wall -Wextra -std=c11 -Iinc main.c src/battery.c src/control.c src/fault.c src/logger.c src/soc.c src/state_machine.c -o bms.exe
-```
+- **RC Equivalent Circuit Model**: First-order RC model simulates real 
+  battery terminal voltage behavior, replacing random sensor data with 
+  physically meaningful values
+- **SOC Estimation**: Coulomb counting fused with OCV lookup table 
+  correction, reducing cumulative drift error
+- **OCV-SOC Lookup Table**: 18650 standard OCV curve with linear 
+  interpolation (11 data points)
+- **Fault Detection**: 7 fault types with real-time monitoring
+  - Cell overvoltage / undervoltage
+  - Overtemperature / undertemperature
+  - Charge / discharge overcurrent
+  - Cell imbalance
+- **Fault Latch Mechanism**: Faults are latched and require condition-based 
+  auto reset with hysteresis and stability timer
+- **State Machine**: 4 states (STANDBY / CHARGE / DISCHARGE / FAULT) with 
+  defined transition logic
+- **CSV Data Logger**: Real-time logging with fflush for data integrity
+- **Python Visualization**: 4-panel plot of SOC, voltage, current, 
+  and temperature with fault event markers
+
+## Simulation Results
+
+![BMS Simulation](bms_simulation.png)
+
+## Requirements
+
+### C Compilation
+- GCC 16.1.0 (MSYS2)
+- VSCode
+
+Compile:
+```bash
+gcc main.c src/*.c -Iinclude -lm -o bms_sim
+
+
+
+ReadSensor         RC model generates physically correct terminal voltage
+    ↓
+UpdateSOC          Coulomb counting + OCV correction
+    ↓
+CheckState         Fault detection → State transition
+    ↓
+Control            MOS gate control based on current state
+    ↓
+Logger             Write data to CSV
+
+
+
