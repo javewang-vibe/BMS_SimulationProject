@@ -17,6 +17,7 @@ int main()
     srand((unsigned)time(NULL));
 
     BMS_Init(&bms);
+    BMS_InitSOC(&bms);
     CSV_Init();
     static int time = 0;
 

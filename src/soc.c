@@ -1,27 +1,22 @@
 #include "soc.h"
 #include "ocv.h"
 #include "battery.h"
+#include "ekf.h"
 #include <stdio.h>
 
-#define CAPACITY 100.0f
-#define CURRENT_THRESHOLD 0.05f
+static EKF ekf;
+
+void BMS_InitSOC(BmsData* bms)
+{
+    EKF_Init(&ekf,bms->soc);
+}
 
 void BMS_UpdateSOC(BmsData* bms)
 {
-    float dt = 1.0f / 3600.0f;
-    float delta_soc = (bms->current / CAPACITY) * dt * 100.0f;
-    bms->soc -= delta_soc;
-
-    if(bms->current > -CURRENT_THRESHOLD && bms->current < CURRENT_THRESHOLD)
-    {
-        float pack_voltage = BMS_GetPackVoltage(bms);
-        float avg_cell_voltage = pack_voltage / CELL_NUM;
-        float soc_ocv = OCV_LookupSOC(avg_cell_voltage);
-        float soc_before = bms->soc;
-        bms->soc = 0.7f * bms->soc + 0.3f * soc_ocv;
-        printf("[SOC] Coulomb=%.2f%% OCV=%.2f%% Fused=%.2f%%\n",soc_before,soc_ocv,bms->soc);
-    }
-
-    if(bms->soc > 100.0f)   bms->soc = 100.0f;
-    if(bms->soc < 0.0f)     bms->soc = 0.0f;
+    float pack_voltage = BMS_GetPackVoltage(bms);
+    float avg_cell_voltage = pack_voltage / CELL_NUM;
+    float z = OCV_LookupSOC(avg_cell_voltage);
+    
+    bms->soc = EKF_Update(&ekf,bms->current,z);
+    printf("[EKF] K=%.3f | Pred=%.4f%% | OCV=%.4f%% | Fused=%.4f%%\n",ekf.P / (ekf.P + ekf.R),ekf.x,z,bms->soc);
 }

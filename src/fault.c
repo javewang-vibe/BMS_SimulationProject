@@ -133,25 +133,6 @@ void BMS_TryAutoReset(BmsData* bms)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const char* FaultToStr(BmsFault fault)
 {
     switch(fault)
