@@ -53,6 +53,7 @@ BMS_SimulationProject/
 ## Simulation Results
 
 ![BMS Simulation](bms_simulation.png)
+![BMS Simulation](bms_simulation_matlab.png)
 
 ## Requirements
 
