@@ -42,6 +42,11 @@ BMS_SimulationProject/
 - **CSV Data Logger**: Real-time logging with fflush for data integrity
 - **Python Visualization**: 4-panel plot of SOC, voltage, current, and temperature with fault event markers
 - **MATLAB Simulation**: EKF SOC estimation validation with true SOC comparisom, error analysis, and 6-panel visualization
+  ## SOC Estimation Error Optimization
+  |Method | Error|
+  |Direct OCV lookup (no compensation) | ~10%|
+  |R0 compensation | ~1.5%|
+  |R0 + V_RC comepensation | ~0.02%|
 
 ## Simulation Results
 
