@@ -78,18 +78,11 @@ for k = 1:total_time
     P_pred = P + Q;
     
     avg_v = pack_voltage / CELL_NUM;
-    avg_v_compensated = avg_v + current * R0;
+    avg_v_rc = mean(v_rc);
+    avg_v_compensated = avg_v + current * R0 + avg_v_rc;
     avg_v_compensated = max(min(avg_v_compensated,ocv_table(end)),ocv_table(1));
     z = interp1(ocv_table,soc_axis,avg_v_compensated,'linear');
-    
-    if k <= 5
-        disp(k)
-        disp(avg_v)
-        disp(z)
-        disp(mean(soc_cell))
-    end
-    
-       
+      
     
     Kk = P_pred / (P_pred + R_noise);
     x = x_pred + Kk * (z - x_pred);
