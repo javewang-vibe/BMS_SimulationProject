@@ -17,7 +17,7 @@ float EKF_Update(EKF* ekf , float current , float z)
 
     float K = P_pred / (P_pred + ekf->R);
     ekf->x = x_pred + K * (z - x_pred);
-    ekf->P = (1 - K) * P_pred;
+    ekf->P = (1.0f - K) * P_pred;
 
     if(ekf->x > 100.0f) ekf->x = 100.0f;
     if(ekf->x < 0.0f) ekf->x = 0.0f;

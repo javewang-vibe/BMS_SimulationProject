@@ -5,7 +5,7 @@
 #define R1 0.02f
 #define C1 2000.0f
 
-typedef struct RcModel
+typedef struct
 {
     float v_rc;
 }RcModel;

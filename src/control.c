@@ -6,7 +6,7 @@
 
 void BMS_Control(BmsData* bms)
 {
-    switch(bms->state)
+    switch(bms->safety.state)
     {
         case BMS_STANDBY:
             printf("[CTRL] MOS: IDLE\n");
@@ -33,12 +33,13 @@ void BMS_Report(BmsData* bms)
     BMS_GetCellMinMax(bms,&minV,&maxV);
 
     printf("[REPORT] State=%s | Fault=%s | PackV=%.2fV | MinV=%.2fV | MaxV=%.2fV | Delta=%.3fV | I=%.2fA | T=%.1fC | SOC=%.6f%%\n",
-           StateToStr(bms->state),
-           FaultToStr(bms->fault),
+           StateToStr(bms->safety.state),
+           FaultToStr(bms->safety.fault),
            BMS_GetPackVoltage(bms),
            minV,
            maxV,
            maxV - minV,
-           bms->current,
-           bms->temperature,bms->soc);
+           bms->raw.current,
+           bms->raw.temperature,
+           bms->est.soc);
 }

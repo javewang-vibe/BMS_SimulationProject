@@ -30,14 +30,35 @@ typedef struct
     float cellvoltage[CELL_NUM];
     float temperature;
     float current;
+} BatteryRaw;
+
+typedef struct 
+{
+    RcModel rc[CELL_NUM];
+} RcModelState;
+
+typedef struct 
+{
     float soc;
+    float soc_cell[CELL_NUM];
+} BatteryEstimation;
+
+
+typedef struct 
+{
     BmsState state;
     BmsFault fault;
     BmsFault fault_latch;
     int fault_reset_request;
-    int fault_timer;
+    int fault_timer;    
+} BatterySafety;
+
+typedef struct
+{
+    BatteryRaw raw;
     RcModel rc[CELL_NUM];
-    float soc_cell[CELL_NUM];
+    BatteryEstimation est;
+    BatterySafety safety;
 } BmsData;
 
 #endif

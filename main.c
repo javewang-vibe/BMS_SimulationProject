@@ -21,7 +21,7 @@ int main()
     CSV_Init();
     static int time = 0;
 
-    printf("==== BMS V1.0 START ====\n");
+    printf("==== BMS SYSTEM START ====\n");
 
     while(1)
     {
@@ -40,12 +40,12 @@ int main()
         CSV_Write
         (
             time,
-            bms.soc,
+            bms.est.soc,
             BMS_GetPackVoltage(&bms),
-            bms.current,
-            bms.temperature,
-            StateToStr(bms.state),
-            FaultToStr(bms.fault_latch)
+            bms.raw.current,
+            bms.raw.temperature,
+            StateToStr(bms.safety.state),
+            FaultToStr(bms.safety.fault_latch)
         );
 
         printf("---------------------\n");
