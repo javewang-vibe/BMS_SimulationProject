@@ -1,8 +1,6 @@
 # BMS Simulation Project
 
-A Battery Management System (BMS) simulation implemented in C, 
-simulating real-world battery behavior including SOC estimation, 
-fault detection, and state management.
+A Battery Management System (BMS) simulation implemented in C, simulating real-world battery behavior including SOC estimation, fault detection, and state management.
 
 ## Project Structure
 BMS_SimulationProject/
@@ -25,40 +23,44 @@ BMS_SimulationProject/
 │   ├── logger.h
 │   ├── rc_model.h
 │   └── ocv.h
-├── main.c                # Main loop
-└── plot_bms_update.py           # Python visualization script
+├── main.c                  # Main loop
+└── plot_bms_update.py      # Python visualization script
+└── BMS_SimulationProject.m
 
 ## Features
 
-- **RC Equivalent Circuit Model**: First-order RC model simulates real 
-  battery terminal voltage behavior, replacing random sensor data with 
-  physically meaningful values
-- **SOC Estimation**: Coulomb counting fused with OCV lookup table 
-  correction, reducing cumulative drift error
-- **OCV-SOC Lookup Table**: 18650 standard OCV curve with linear 
-  interpolation (11 data points)
+- **RC Equivalent Circuit Model**: First-order RC model simulates real battery terminal voltage behavior, replacing random sensor data with physically meaningful   values
+- **SOC Estimation**: Extended Kalman Filter (EKF) fusing Coulomb counting with OCV lookup table correction, with R0 and V_RC compensation
+- **OCV-SOC Lookup Table**: 18650 standard OCV curve with linear interpolation (11 data points)
 - **Fault Detection**: 7 fault types with real-time monitoring
   - Cell overvoltage / undervoltage
   - Overtemperature / undertemperature
   - Charge / discharge overcurrent
   - Cell imbalance
-- **Fault Latch Mechanism**: Faults are latched and require condition-based 
-  auto reset with hysteresis and stability timer
-- **State Machine**: 4 states (STANDBY / CHARGE / DISCHARGE / FAULT) with 
-  defined transition logic
+- **Fault Latch Mechanism**: Faults are latched and require condition-based auto reset with hysteresis and stability timer
+- **State Machine**: 4 states (STANDBY / CHARGE / DISCHARGE / FAULT) with defined transition logic
 - **CSV Data Logger**: Real-time logging with fflush for data integrity
-- **Python Visualization**: 4-panel plot of SOC, voltage, current, 
-  and temperature with fault event markers
+- **Python Visualization**: 4-panel plot of SOC, voltage, current, and temperature with fault event markers
+- **MATLAB Simulation**: EKF SOC estimation validation with true SOC comparisom, error analysis, and 6-panel visualization
+  ## SOC Estimation Error Optimization
+  |Method | Error|
+  |Direct OCV lookup (no compensation) | ~10%|
+  |R0 compensation | ~1.5%|
+  |R0 + V_RC comepensation | ~0.02%|
 
 ## Simulation Results
 
 ![BMS Simulation](bms_simulation.png)
+![BMS Simulation](bms_simulation_matlab.png)
 
 ## Requirements
 
 ### C Compilation
 - GCC 16.1.0 (MSYS2)
 - VSCode
+### MATLAB Simulation
+- MATLAB R2016a or later
+- Run 'matlab/bms_simulation.m'
 
 Compile:
 ```bash
