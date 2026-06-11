@@ -6,8 +6,8 @@
 #define CELL_UNDERVOLTAGE_LIMIT 2.80f
 #define OVERTEMPERATURE_LIMIT 60.0f
 #define UNDERTEMPERATURE_LIMIT -5.0f
-#define CHARGE_OVERCURRENT_LIMIT -0.80f
-#define DISCHARGE_OVERCURRENT_LIMIT 0.80f
+#define CHARGE_OVERCURRENT_LIMIT -0.60f
+#define DISCHARGE_OVERCURRENT_LIMIT 0.60f
 #define CELL_IMBALANCE_LIMIT 0.20f
 
 void BMS_DiagnoseFault(BmsData* bms)
@@ -96,7 +96,7 @@ void BMS_TryAutoReset(BmsData* bms)
             if(minV > 2.85f && bms->safety.fault_timer >=3)
             {
                 bms->safety.fault_reset_request = 1;
-                printf("[RESET COND] Undercoltage recovered: minV=%.3fV\n",minV);
+                printf("[RESET COND] Undervoltage recovered: minV=%.3fV\n",minV);
             }
             else
             {

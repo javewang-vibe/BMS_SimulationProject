@@ -3,6 +3,7 @@
 #include "battery.h"
 #include <stdio.h>
 #include "ekf.h"
+#include "rc_model.h"
 
 static EKF ekf;
 
@@ -15,7 +16,7 @@ void BMS_UpdateSOC(BmsData* bms)
 {
     float pack_voltage = BMS_GetPackVoltage(bms);
     float avg_cell_voltage = pack_voltage / CELL_NUM;
-    float avg_v_compensated = avg_cell_voltage + bms->raw.current * 0.05f;
+    float avg_v_compensated = avg_cell_voltage + bms->raw.current * R0;
     float z = OCV_LookupSOC(avg_v_compensated);
 
     bms->est.soc = EKF_Update(&ekf,bms->raw.current,z);

@@ -1,5 +1,5 @@
 #include "ekf.h"
-#define CAPACITY 100.0f
+#include "config.h"
 
 void EKF_Init(EKF* ekf , float init_soc)
 {
@@ -12,7 +12,7 @@ void EKF_Init(EKF* ekf , float init_soc)
 float EKF_Update(EKF* ekf , float current , float z)
 {
     float dt = 1.0f / 3600.0f;
-    float x_pred = ekf->x - (current / CAPACITY) * dt * 100.0f;
+    float x_pred = ekf->x - (current / BATTERY_CAPACITY_AH) * dt * 100.0f;
     float P_pred = ekf->P + ekf->Q;
 
     float K = P_pred / (P_pred + ekf->R);

@@ -3,6 +3,7 @@
 #include <time.h>
 #include <windows.h>
 
+
 #include "battery.h"
 #include "state_machine.h"
 #include "control.h"
@@ -19,13 +20,13 @@ int main()
     BMS_Init(&bms);
     BMS_InitSOC(&bms);
     CSV_Init();
-    static int time = 0;
+    static int t = 0;
 
     printf("==== BMS SYSTEM START ====\n");
 
     while(1)
     {
-        time++;
+        t++;
 
         BMS_ReadSensor(&bms);
 
@@ -39,7 +40,7 @@ int main()
 
         CSV_Write
         (
-            time,
+            t,
             bms.est.soc,
             BMS_GetPackVoltage(&bms),
             bms.raw.current,
@@ -50,7 +51,7 @@ int main()
 
         printf("---------------------\n");
 
-        Sleep(1000);
+        Sleep(1);
     }
     CSV_Close();
     return 0;

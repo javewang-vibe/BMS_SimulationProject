@@ -3,6 +3,7 @@
 #include "battery.h"
 #include "ocv.h"
 #include "rc_model.h"
+#include "config.h"
 
 void BMS_Init(BmsData* bms)
 {
@@ -25,7 +26,7 @@ void BMS_Init(BmsData* bms)
 
 void BMS_ReadSensor(BmsData* bms)
 {
-    bms->raw.current = 0.5f + ((rand() % 21) - 10) * 0.005f;
+    bms->raw.current = 0.3f + ((rand() % 21) - 10) * 0.005f;
     bms->raw.temperature += 0.02f + ((rand() % 11) - 5) * 0.005f;
     if(bms->raw.temperature > 70.0f) bms->raw.temperature = 70.0f;
     if(bms->raw.temperature < -10.0f) bms->raw.temperature = -10.0f;
@@ -33,7 +34,7 @@ void BMS_ReadSensor(BmsData* bms)
     for(int i = 0; i < CELL_NUM; i++)
     {
         float cell_current = bms->raw.current * (1.0f + (i - 2) * 0.01f);
-        bms->est.soc_cell[i] -= (cell_current / 100.0f) * dt * 100.0f;
+        bms->est.soc_cell[i] -= (cell_current / BATTERY_CAPACITY_AH) * dt * 100.0f;
         if(bms->est.soc_cell[i] > 100.0f) bms->est.soc_cell[i] = 100.0f;
         if(bms->est.soc_cell[i] < 0.0f) bms->est.soc_cell[i] = 0.0f;
         float ocv = OCV_LookupSOC_Inverse(bms->est.soc_cell[i]);
@@ -67,7 +68,6 @@ void BMS_GetCellMinMax(BmsData* bms,float* minV,float* maxV)
             *maxV = bms->raw.cellvoltage[i];
     }
 }
-
 float BMS_GetDeltaVoltage(BmsData* bms)
 {
     float minV,maxV;

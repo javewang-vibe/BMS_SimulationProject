@@ -18,6 +18,7 @@ void BMS_CheckState(BmsData* bms)
         printf("[FAULT] %s\n", FaultToStr(bms->safety.fault));
         return;
     }
+    
     if(bms->safety.state == BMS_FAULT)
     {
         BMS_TryAutoReset(bms);
@@ -47,9 +48,6 @@ void BMS_CheckState(BmsData* bms)
         case BMS_DISCHARGE:
             if(bms->raw.current <= 0.05f)
                 bms->safety.state = BMS_STANDBY;
-            break;
-        case BMS_FAULT:
-            bms->safety.state = BMS_STANDBY;
             break;
         default:
             break;
