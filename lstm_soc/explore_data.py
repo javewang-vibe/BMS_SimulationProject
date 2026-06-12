@@ -9,7 +9,7 @@ print(f"总行数:{len(df)}")
 
 print("缺失值:\n",df.isnull().sum())
 fig,axes = plt.subplots(4, 1, figsize=(12, 6))
-df['soc'].plot(ax=axes[0],title='SOC')
+df['soc_true'].plot(ax=axes[0],title='SOC')
 df['voltage'].plot(ax=axes[1],title='Voltage (V)')
 df['current'].plot(ax=axes[2],title='Current (A)')
 df['temp'].plot(ax=axes[3],title='Temperature (℃)')

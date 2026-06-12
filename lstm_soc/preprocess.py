@@ -6,10 +6,10 @@ import pickle
 df = pd.read_csv('bms_log.csv')
 
 features = ['voltage','current','temp']
-target = 'soc'
+target = 'soc_true'
 
 df = df.dropna()
-df = df[df['soc'].between(0,100)]
+df = df[df['soc_true'].between(0,100)]
 df = df[df['voltage'].between(15.0,25.2)]
 print("过滤后行数:",len(df))
 

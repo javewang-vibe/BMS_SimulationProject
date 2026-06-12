@@ -41,5 +41,5 @@ void BMS_Report(BmsData* bms)
            maxV - minV,
            bms->raw.current,
            bms->raw.temperature,
-           bms->est.soc);
+           bms->est.soc_ekf);
 }

@@ -38,8 +38,10 @@ typedef struct
 } RcModelState;
 
 typedef struct 
-{
+{   
     float soc;
+    float soc_ekf;
+    float soc_true;
     float soc_cell[CELL_NUM];
 } BatteryEstimation;
 

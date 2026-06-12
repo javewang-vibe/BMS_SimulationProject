@@ -19,6 +19,6 @@ void BMS_UpdateSOC(BmsData* bms)
     float avg_v_compensated = avg_cell_voltage + bms->raw.current * R0;
     float z = OCV_LookupSOC(avg_v_compensated);
 
-    bms->est.soc = EKF_Update(&ekf,bms->raw.current,z);
-    printf("[EKF] K=%.3f | Pred=%.4f%% | OCV=%.4f%% | Fused=%.4f%%\n",ekf.P/(ekf.P + ekf.R),ekf.x,z,bms->est.soc);
+    bms->est.soc_ekf = EKF_Update(&ekf,bms->raw.current,z);
+    printf("[EKF] K=%.3f | Pred=%.4f%% | OCV=%.4f%% | Fused=%.4f%%\n",ekf.P/(ekf.P + ekf.R),ekf.x,z,bms->est.soc_ekf);
 }

@@ -41,7 +41,8 @@ int main()
         CSV_Write
         (
             t,
-            bms.est.soc,
+            bms.est.soc_true,
+            bms.est.soc_ekf,
             BMS_GetPackVoltage(&bms),
             bms.raw.current,
             bms.raw.temperature,

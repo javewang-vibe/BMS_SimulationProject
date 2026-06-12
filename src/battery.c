@@ -40,6 +40,11 @@ void BMS_ReadSensor(BmsData* bms)
         float ocv = OCV_LookupSOC_Inverse(bms->est.soc_cell[i]);
         bms->raw.cellvoltage[i] = RcModel_Update(&bms->rc[i],cell_current,ocv);
     }
+    float soc_true = 0.0f;
+    for(int i = 0; i < CELL_NUM; i++)
+        soc_true += bms->est.soc_cell[i];
+    bms->est.soc_true = soc_true / CELL_NUM;
+
 }
 
 float BMS_GetPackVoltage(BmsData* bms)
