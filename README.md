@@ -34,6 +34,7 @@ BMS_SimulationProject/
 │   ├── data_overview.png
 │   ├── training_history.png
 │   └── prediction_result.png
+│   └── ekf_vs_lstm.png
 ├── main.c                # 主循环
 ├── plot_bms_update.py    # Python 可视化脚本
 ├── BMS_SimulationProject.m
@@ -71,8 +72,14 @@ BMS_SimulationProject/
 | 直接 OCV 查表（无补偿） | ~10% |
 | EKF + R0 补偿 | ~1.5% |
 | EKF + R0 + V_RC 补偿 | ~0.02% |
-| LSTM（数据驱动） | 取决于训练数据量 |
 
+| LSTM（数据驱动） | 取决于训练数据量 |
+| 算法 | MAE | RMSE |
+|---|---|---|
+| EKF | 0.978% | 0.987% |
+| LSTM | 0.198% | 0.207% |
+
+![EKF vs LSTM对比](python/ekf_vs_lstm.png)
 ## 仿真结果
 
 ![BMS 仿真结果](bms_simulation.png)
@@ -83,6 +90,10 @@ BMS_SimulationProject/
 ![数据探索](lstm_soc/result/bms_log.png)
 ![训练损失曲线](lstm_soc/result/training_history.png)
 ![SOC预测结果](lstm_soc/result/prediction_result.png)
+
+## EKF vs LSTM 误差结果展示
+![两种方法SOC估算误差结果展示](lstm_soc/result/ekf_vs_lstm.png)
+
 ## 环境要求
 
 ### C 编译
@@ -171,6 +182,7 @@ BMS_SimulationProject/
 │   ├── data_overview.png
 │   ├── training_history.png
 │   └── prediction_result.png
+│   └── ekf_vs_lstm.png
 │
 ├── main.c                # Main loop
 ├── plot_bms_update.py    # Python visualization script
@@ -209,7 +221,12 @@ BMS_SimulationProject/
 | Direct OCV lookup (no compensation) | ~10% |
 | EKF with R0 compensation | ~1.5% |
 | EKF with R0 + V_RC compensation | ~0.02% |
+
 | LSTM (data-driven) | subject to training data size |
+| algorithm | MAE | RMSE |
+|---|---|---|
+| EKF | 0.978% | 0.987% |
+| LSTM | 0.198% | 0.207% |
 
 ## Simulation Results
 
@@ -219,7 +236,8 @@ BMS_SimulationProject/
 ![Data Overview](lstm_soc/result/bms_log.png)
 ![Training History](lstm_soc/result/training_history.png)
 ![Prediction Result](lstm_soc/result/prediction_result.png)
-
+## EKF vs LSTM Error Results
+![SOC Estimation Error Display](lstm_soc/result/ekf_vs_lstm.png)
 
 ## Requirements
 
