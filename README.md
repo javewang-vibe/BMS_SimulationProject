@@ -77,9 +77,12 @@ BMS_SimulationProject/
 
 ![BMS 仿真结果](bms_simulation.png)
 ![BMS MATLAB 仿真结果](bms_simulation_matlab.png)
-![LSTM 预览SOC 结果](lstm_soc/results/data_overview.png)
-![LSTM 训练SOC 结果](lstm_soc/results/training_history.png)
-![LSTM 预测SOC 结果](lstm_soc/results/prediction_result.png）
+
+## LSTM Pipeline 结果展示
+
+![数据探索](lstm_soc/result/data_overview.png)
+![训练损失曲线](lstm_soc/result/training_history.png)
+![SOC预测结果](lstm_soc/result/prediction_result.png)
 ## 环境要求
 
 ### C 编译
@@ -212,9 +215,10 @@ BMS_SimulationProject/
 
 ![BMS Simulation](bms_simulation.png)
 ![BMS MATLAB Simulation](bms_simulation_matlab.png)
-![LSTM review SOC reault](lstm_soc/results/data_overview.png)
-![LSTM training SOC  result](lstm_soc/results/training_history.png)
-![LSTM predict SOC result](lstm_soc/results/prediction_result.png)
+## LSTM Pipeline Results
+![Data Overview](lstm_soc/result/data_overview.png)
+![Training History](lstm_soc/result/training_history.png)
+![Prediction Result](lstm_soc/result/prediction_result.png)
 
 
 ## Requirements
