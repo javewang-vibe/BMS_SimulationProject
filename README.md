@@ -80,7 +80,7 @@ BMS_SimulationProject/
 
 ## LSTM Pipeline 结果展示
 
-![数据探索](lstm_soc/result/data_overview.png)
+![数据探索](lstm_soc/result/bms_log.png)
 ![训练损失曲线](lstm_soc/result/training_history.png)
 ![SOC预测结果](lstm_soc/result/prediction_result.png)
 ## 环境要求
@@ -216,7 +216,7 @@ BMS_SimulationProject/
 ![BMS Simulation](bms_simulation.png)
 ![BMS MATLAB Simulation](bms_simulation_matlab.png)
 ## LSTM Pipeline Results
-![Data Overview](lstm_soc/result/data_overview.png)
+![Data Overview](lstm_soc/result/bms_log.png)
 ![Training History](lstm_soc/result/training_history.png)
 ![Prediction Result](lstm_soc/result/prediction_result.png)
 
