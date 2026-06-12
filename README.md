@@ -30,6 +30,10 @@ BMS_SimulationProject/
 │   ├── 2_preprocess.py      # 数据清洗、归一化、序列构建
 │   ├── 3_train_lstm.py      # LSTM 模型定义与训练
 │   └── 4_evaluate_predict.py # 模型评估与在线推理接口
+│   └── results/
+│   ├── data_overview.png
+│   ├── training_history.png
+│   └── prediction_result.png
 ├── main.c                # 主循环
 ├── plot_bms_update.py    # Python 可视化脚本
 ├── BMS_SimulationProject.m
@@ -73,7 +77,7 @@ BMS_SimulationProject/
 
 ![BMS 仿真结果](bms_simulation.png)
 ![BMS MATLAB 仿真结果](bms_simulation_matlab.png)
-
+![LSTM 预测SOC 结果](data_overview.png)(training_history.png)(prediction_result.png)
 ## 环境要求
 
 ### C 编译
@@ -158,6 +162,11 @@ BMS_SimulationProject/
 │   ├── 2_preprocess.py      # Data cleaning, normalization, sequence generation
 │   ├── 3_train_lstm.py      # LSTM model definition and training
 │   └── 4_evaluate_predict.py # Model evaluation and online inference interface
+│   └── results/
+│   ├── data_overview.png
+│   ├── training_history.png
+│   └── prediction_result.png
+│
 ├── main.c                # Main loop
 ├── plot_bms_update.py    # Python visualization script
 ├── BMS_SimulationProject.m
@@ -201,6 +210,8 @@ BMS_SimulationProject/
 
 ![BMS Simulation](bms_simulation.png)
 ![BMS MATLAB Simulation](bms_simulation_matlab.png)
+![LSTM predict SOC results](data_overview.png)(training_history.png)(prediction_result.png)
+
 
 ## Requirements
 
